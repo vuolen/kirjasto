@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+    e2e:
+        build: .
+        environment:
+            - FRONTEND_HOST=frontend
+            - FRONTEND_PORT=8001
+            - SELENIUM_REMOTE_URL=http://selenium:4444/wd/hub
+        depends_on:
+            - frontend
+            - selenium
+        command: test
+        
+    selenium:
+        image: selenium/standalone-chrome
+
+    frontend:
+        build: ../kirjasto-frontend
+        ports:
+            - "8001:8001"
+        volumes:
+            - ../kirjasto-frontend:/usr/src/kirjasto-frontend:rw
+        environment:
+            - PORT=8001
+            - BACKEND_HOST=localhost
+            - BACKEND_PORT=8000
+        depends_on:
+            - backend
+        command: run development
+
+    backend:
+        build: ../kirjasto-backend
+        ports:
+            - "8000:8000"
+        environment:
+            - PORT=8000
+            - PGHOST=db
+            - PGDATABASE=postgres
+            - PGUSER=postgres
+            - PGPASSWORD=${POSTGRES_PASSWORD}
+        depends_on:
+            - db
+        command: run development
+            
+    db:
+        image: postgres
+        environment:
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

@@ -1,0 +1,26 @@
+{
+  "name": "kirjasto",
+  "version": "1.0.0",
+  "description": "Kirjasto is a library management system.",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuolen/kirjasto.git"
+  },
+  "author": "Lennu Vuolanne",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/vuolen/kirjasto/issues"
+  },
+  "homepage": "https://github.com/vuolen/kirjasto#readme",
+  "devDependencies": {
+    "@cucumber/cucumber": "^7.0.0-rc.0",
+    "selenium-webdriver": "^4.0.0-alpha.7"
+  }
+}
