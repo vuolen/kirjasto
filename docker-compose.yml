@@ -32,6 +32,8 @@ services:
         build: ../kirjasto-backend
         ports:
             - "8000:8000"
+        volumes:
+            - ../kirjasto-backend:/usr/src/kirjasto-backend:rw
         environment:
             - PORT=8000
             - PGHOST=db
