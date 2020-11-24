@@ -7,4 +7,4 @@ COPY . .
 
 RUN npm install
 
-ENTRYPOINT ./wait-for.sh ${FRONTEND_HOST}:${FRONTEND_PORT} -- npm test
+ENTRYPOINT ./wait-for.sh ${FRONTEND_URL} -- npm test
