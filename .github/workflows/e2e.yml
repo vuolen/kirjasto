@@ -7,8 +7,8 @@ on:
     types: [frontend_push, backend_push]
  
 env:
-  FRONTEND_LOCATION: ./kirjasto-frontend
-  BACKEND_LOCATION: ./kirjasto-backend
+  FRONTEND_LOCATION: ../kirjasto-frontend
+  BACKEND_LOCATION: ../kirjasto-backend
   BACKEND_URL: backend:8000
   POSTGRES_PASSWORD: e2etest
 
