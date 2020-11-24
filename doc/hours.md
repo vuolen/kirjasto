@@ -11,6 +11,8 @@ This log is just so that I can get credits from my university :)
 | 4. - 5.11. | 2     | Tried out a more functional style of backend, finished the getBooks endpoint                         |
 | 10.11.     | 1     | Refactored backend, configured frontend and started implementation                                   |
 | 13.11.     | 1     | Added filtering books by title to the frontend. Studied how to mix React and rxjs                    |
-| Total      | 13    |                                                 							                            |
+| 20.-22.11. | 5     | Built a docker-compose file for running e2e tests with cucumber.                                     |
+| Total      | 18    |                                                 							                            |
+
 
 
