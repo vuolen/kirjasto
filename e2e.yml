@@ -2,8 +2,6 @@ version: "3.8"
 services:
     e2e:
         build: .
-        volumes:
-            - .:/usr/src/kirjasto:rw
         environment:
             - FRONTEND_URL=frontend:8001
             - SELENIUM_REMOTE_URL=http://selenium:4444/wd/hub
@@ -27,11 +25,9 @@ services:
         build: ${FRONTEND_LOCATION}
         ports:
             - "8001:8001"
-        volumes:
-            - ${FRONTEND_LOCATION}:/usr/src/kirjasto-frontend:rw
         environment:
             - PORT=8001
-            - BACKEND_URL=${BACKEND_URL}
+            - BACKEND_URL=backend:8000
         depends_on:
             - backend
         command: run development
@@ -40,8 +36,6 @@ services:
         build: ${BACKEND_LOCATION}
         ports:
             - "8000:8000"
-        volumes:
-            - ${BACKEND_LOCATION}:/usr/src/kirjasto-backend:rw
         environment:
             - PORT=8000
             - PGHOST=db
