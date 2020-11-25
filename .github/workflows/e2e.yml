@@ -22,11 +22,6 @@ jobs:
       - name: Checkout kirjasto
         uses: actions/checkout@v2
         
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.x
-        
       - name: Checkout frontend
         uses: actions/checkout@v2
         with:
@@ -39,4 +34,4 @@ jobs:
           repository: vuolen/kirjasto-backend
           path: kirjasto-backend
           
-      - run: docker-compose --verbose run e2e
+      - run: docker-compose -f e2e.yml run e2e
