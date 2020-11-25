@@ -7,8 +7,8 @@ on:
     types: [frontend_push, backend_push]
  
 env:
-  FRONTEND_LOCATION: ../kirjasto-frontend
-  BACKEND_LOCATION: ../kirjasto-backend
+  FRONTEND_LOCATION: kirjasto-frontend
+  BACKEND_LOCATION: kirjasto-backend
   BACKEND_URL: backend:8000
   POSTGRES_PASSWORD: e2etest
 
@@ -19,11 +19,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        repository: vuolen/kirjasto-frontend
-    - uses: actions/checkout@v2
-      with:
-        repository: vuolen/kirjasto-backend
-    - uses: actions/checkout@v2
-    - run: docker-compose run e2e
+      - name: Checkout kirjasto
+        uses: actions/checkout@v2
+        with:
+          path: kirjasto
+      - name: Checkout frontend
+        uses: actions/checkout@v2
+        with:
+          repository: vuolen/kirjasto-frontend
+          path: kirjasto-frontend
+      - name: Checkout backend
+        uses: actions/checkout@v2
+        with:
+          repository: vuolen/kirjasto-backend
+          path: kirjasto-backend
+      - run: echo $pwd; docker-compose run e2e
