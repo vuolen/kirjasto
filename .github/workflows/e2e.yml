@@ -34,6 +34,4 @@ jobs:
           repository: vuolen/kirjasto-backend
           path: kirjasto-backend
           
-      - run: docker-compose --verbose build
-      - run: docker-compose --verbose create
-      - run: docker-compose --verbose start frontend backend selenium db
+      - run: docker-compose --verbose run e2e
