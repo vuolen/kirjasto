@@ -1,0 +1,37 @@
+name: E2E tests
+
+on:
+  push:
+    branches: [ main ]
+  repository_dispatch:
+    types: [frontend_push, backend_push]
+ 
+env:
+  FRONTEND_LOCATION: kirjasto-frontend
+  BACKEND_LOCATION: kirjasto-backend
+  BACKEND_URL: backend:8000
+  POSTGRES_PASSWORD: e2etest
+
+jobs:
+
+  e2e_test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout kirjasto
+        uses: actions/checkout@v2
+        
+      - name: Checkout frontend
+        uses: actions/checkout@v2
+        with:
+          repository: vuolen/kirjasto-frontend
+          path: kirjasto-frontend
+          
+      - name: Checkout backend
+        uses: actions/checkout@v2
+        with:
+          repository: vuolen/kirjasto-backend
+          path: kirjasto-backend
+          
+      - run: docker-compose run e2e
