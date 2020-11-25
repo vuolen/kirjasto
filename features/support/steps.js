@@ -1,8 +1,9 @@
-const { Given, Then, After, Before, Status, When, setWorldConstructor } = require("@cucumber/cucumber");
+const { Given, Then, After, Before, Status, When, setWorldConstructor, setDefaultTimeout } = require("@cucumber/cucumber");
 const { Builder, By, Capabilities, logging } = require("selenium-webdriver");
-const { Options } = require("selenium-webdriver/chrome");
 const { Client } = require('pg');
 const assert = require("assert").strict
+
+setDefaultTimeout(60 * 1000);
 
 const FRONTEND_URL = process.env.FRONTEND_URL
 
