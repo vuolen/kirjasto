@@ -24,25 +24,24 @@ services:
             - "4444:4444"
 
     frontend:
-        build: ../kirjasto-frontend
+        build: ${FRONTEND_LOCATION}
         ports:
             - "8001:8001"
         volumes:
-            - ../kirjasto-frontend:/usr/src/kirjasto-frontend:rw
+            - ${FRONTEND_LOCATION}:/usr/src/kirjasto-frontend:rw
         environment:
             - PORT=8001
-            - BACKEND_HOST=backend
-            - BACKEND_PORT=8000
+            - BACKEND_URL=${BACKEND_URL}
         depends_on:
             - backend
         command: run development
 
     backend:
-        build: ../kirjasto-backend
+        build: ${BACKEND_LOCATION}
         ports:
             - "8000:8000"
         volumes:
-            - ../kirjasto-backend:/usr/src/kirjasto-backend:rw
+            - ${BACKEND_LOCATION}:/usr/src/kirjasto-backend:rw
         environment:
             - PORT=8000
             - PGHOST=db
