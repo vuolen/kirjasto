@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout kirjasto
         uses: actions/checkout@v2
+        with:
+          path: main
         
       - name: Checkout frontend
         uses: actions/checkout@v2
@@ -35,3 +37,4 @@ jobs:
           path: kirjasto-backend
           
       - run: docker-compose run e2e
+        working-directory: ./main
