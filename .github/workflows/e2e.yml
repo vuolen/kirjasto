@@ -21,16 +21,17 @@ jobs:
     steps:
       - name: Checkout kirjasto
         uses: actions/checkout@v2
-        with:
-          path: kirjasto
+        
       - name: Checkout frontend
         uses: actions/checkout@v2
         with:
           repository: vuolen/kirjasto-frontend
           path: kirjasto-frontend
+          
       - name: Checkout backend
         uses: actions/checkout@v2
         with:
           repository: vuolen/kirjasto-backend
           path: kirjasto-backend
-      - run: echo $pwd; docker-compose run e2e
+          
+      - run: docker-compose run e2e
