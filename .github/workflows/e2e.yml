@@ -35,3 +35,4 @@ jobs:
           path: kirjasto-backend
           
       - run: docker-compose run e2e
+        timeout-minutes: 10
