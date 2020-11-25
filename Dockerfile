@@ -7,4 +7,4 @@ COPY . .
 
 RUN npm install
 
-ENTRYPOINT ./wait-for.sh ${FRONTEND_URL} -t 9999 -- npm test
+ENTRYPOINT npm test
