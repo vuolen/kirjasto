@@ -13,8 +13,7 @@ services:
         depends_on:
             - frontend
             - selenium
-            - db
-        command: test
+        command: ["npm", "run", "wait", "test"]
         
     selenium:
         image: selenium/standalone-chrome
@@ -30,7 +29,7 @@ services:
             - BACKEND_URL=backend:8000
         depends_on:
             - backend
-        command: run development
+        command: ["npm", "run", "wait", "development"]
 
     backend:
         build: ${BACKEND_LOCATION}
@@ -44,7 +43,7 @@ services:
             - PGPASSWORD=${POSTGRES_PASSWORD}
         depends_on:
             - db
-        command: run development
+        command: ["npm", "run", "wait", "development"]
             
     db:
         image: postgres

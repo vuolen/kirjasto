@@ -1,10 +1,6 @@
-FROM node:lts-alpine
+FROM node:latest
 WORKDIR /usr/src/kirjasto
-
-RUN apk update && apk add netcat-openbsd
 
 COPY . .
 
 RUN npm install
-
-ENTRYPOINT npm test

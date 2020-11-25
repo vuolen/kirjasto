@@ -38,11 +38,6 @@ After(async function(testCase) {
                 world.attach(logs.map(log => log.level + ": " + log.message).join("\n"), "text/plain")
             }
         )
-        await this.driver.executeScript("return document.documentElement.outerHTML;").then(
-            function(dom) {
-                world.attach(dom, "text/plain")
-            }
-        )
     }
     await this.driver.quit()
     await this.client.end()

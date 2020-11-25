@@ -7,6 +7,7 @@
     "doc": "doc"
   },
   "scripts": {
+    "wait": "./wait-for-it.sh ${FRONTEND_URL} -- npm run",
     "test": "cucumber-js"
   },
   "repository": {
