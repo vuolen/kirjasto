@@ -7,8 +7,8 @@ on:
     types: [frontend_push, backend_push]
  
 env:
-  FRONTEND_LOCATION: ../kirjasto-frontend
-  BACKEND_LOCATION: ../kirjasto-backend
+  FRONTEND_LOCATION: ./kirjasto-frontend
+  BACKEND_LOCATION: ./kirjasto-backend
   BACKEND_URL: backend:8000
   POSTGRES_PASSWORD: e2etest
 
@@ -20,6 +20,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
       with:
         repository: vuolen/kirjasto-frontend
         path: $FRONTEND_LOCATION
@@ -27,5 +28,4 @@ jobs:
       with:
         repository: vuolen/kirjasto-backend
         path: $BACKEND_LOCATION
-    - uses: actions/checkout@v2
     - run: docker-compose run e2e
