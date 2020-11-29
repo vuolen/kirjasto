@@ -1,4 +1,5 @@
 # kirjasto
+![E2E tests](https://github.com/vuolen/kirjasto/workflows/E2E%20tests/badge.svg)
 
 Kirjasto is a library management system.
 
