@@ -44,7 +44,7 @@ After(async function(testCase) {
     await this.client.end()
 })
 
-Given("the home page is loaded", function () {
+Given("the user navigates to the home page", function () {
     return this.driver.get(FRONTEND_URL)
 })
 
@@ -69,4 +69,8 @@ Then("the page should not contain {string}", function(str) {
         ok => assert(false),
         err => assert(true)
     )
+})
+
+Then("the server responds with a page", function() {
+    return this.driver.findElement(By.css("html"))
 })
