@@ -1,52 +1,28 @@
 version: "3.8"
+
+x-pg-env:
+    &pg-env
+    PGHOST: ${PGHOST}
+    PGDATABASE: ${PGDATABASE}
+    PGUSER: ${PGUSER}
+    PGPASSWORD: ${PGPASSWORD}
+    # postgres image uses the POSTGRES_PASSWORD environment variable instead of PGPASSWORD
+    POSTGRES_PASSWORD: ${PGPASSWORD}
+
 services:
     e2e:
         build: .
         environment:
-            - FRONTEND_URL=frontend:8001
-            - SELENIUM_REMOTE_URL=http://selenium:4444/wd/hub
-            - PGHOST=db
-            - PGDATABASE=postgres
-            - PGUSER=postgres
-            - PGPASSWORD=${POSTGRES_PASSWORD}
-            - CUCUMBER_PUBLISH_ENABLED=true
+            <<: *pg-env
+            FRONTEND_URL: "localhost:8001"
+            SELENIUM_REMOTE_URL: "http://localhost:4444/wd/hub"
+            CUCUMBER_PUBLISH_ENABLED: "true"
         depends_on:
             - frontend
             - selenium
+        network_mode: "host"
         command: ["npm", "run", "wait", "test"]
         
     selenium:
         image: selenium/standalone-chrome
-        ports:
-            - "4444:4444"
-
-    frontend:
-        build: ${FRONTEND_LOCATION}
-        ports:
-            - "8001:8001"
-        environment:
-            - PORT=8001
-            - BACKEND_URL=backend:8000
-        depends_on:
-            - backend
-        command: ["npm", "run", "wait", "development"]
-
-    backend:
-        build: ${BACKEND_LOCATION}
-        ports:
-            - "8000:8000"
-        environment:
-            - PORT=8000
-            - PGHOST=db
-            - PGDATABASE=postgres
-            - PGUSER=postgres
-            - PGPASSWORD=${POSTGRES_PASSWORD}
-        depends_on:
-            - db
-        command: ["npm", "run", "wait", "development"]
-            
-    db:
-        image: postgres
-        environment:
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        command: ["postgres", "-c", "log_statement=all"]
+        network_mode: "host"

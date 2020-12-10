@@ -1,4 +1,4 @@
-Feature: User can search books by title
+Feature: User can create and view books by title
 
     Scenario: filtering shows book by title
         Given a book with the title "Test" exists in the database

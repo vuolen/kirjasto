@@ -1,0 +1,40 @@
+version: "3.8"
+
+x-pg-env:
+    &pg-env
+    PGHOST: ${PGHOST}
+    PGDATABASE: ${PGDATABASE}
+    PGUSER: ${PGUSER}
+    PGPASSWORD: ${PGPASSWORD}
+    # postgres image uses the POSTGRES_PASSWORD environment variable instead of PGPASSWORD
+    POSTGRES_PASSWORD: ${PGPASSWORD}
+
+services:
+
+    frontend:
+        build: ${FRONTEND_LOCATION}
+        environment:
+            PORT: 8001
+            BACKEND_URL: "localhost:8000"
+        depends_on:
+            - backend
+        network_mode: "host"
+        command: ["npm", "run", "wait", "development"]
+
+    backend:
+        build: ${BACKEND_LOCATION}
+        environment:
+            <<: *pg-env
+            PORT: 8000
+        depends_on:
+            - db
+        network_mode: "host"
+        command: ["npm", "run", "wait", "development"]
+            
+    db:
+        image: postgres
+        environment:
+            <<: *pg-env
+            POSTGRES_PASSWORD: ${PGPASSWORD}
+        network_mode: "host"
+        command: ["postgres", "-c", "log_statement=all"]
