@@ -36,3 +36,10 @@ jobs:
           BACKEND_URL: backend:8000
           POSTGRES_PASSWORD: e2etest
   
+      - name: Deploy frontend
+        uses: akhileshns/heroku-deploy@v3.8.8
+          with:
+            heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+            heroku_app_name: "kirjasto-demo"
+            heroku_email: "vuolanne.lennu@gmail.com"
+            appdir: "kirjasto-frontend"
