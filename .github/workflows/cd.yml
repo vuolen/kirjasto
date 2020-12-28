@@ -47,5 +47,6 @@ jobs:
 
     steps:
       - run: docker-compose -f e2e.yml run e2e
+        working-directory: kirjasto
 
   
