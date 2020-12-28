@@ -35,7 +35,7 @@ jobs:
         id: workspace
         with:
           path: $GITHUB_WORKSPACE
-          key: ${{ hashFiles('**/lockfiles') }}
+          key: workspace-cache-key
     
   e2e_test:
     runs-on: ubuntu-latest
