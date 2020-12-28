@@ -11,7 +11,7 @@ env:
   BACKEND_LOCATION: ./kirjasto-backend
 
 jobs:
-  checkout:
+  test:
     runs-on: ubuntu-latest
     
     steps:
@@ -29,24 +29,10 @@ jobs:
         with:
           repository: vuolen/kirjasto-backend
           path: kirjasto-backend
-          
-      - name: Cache workspace
-        uses: actions/cache@v2
-        id: workspace
-        with:
-          path: $GITHUB_WORKSPACE
-          key: workspace-cache-key
-    
-  e2e_test:
-    runs-on: ubuntu-latest
-    needs: checkout
-    
-    env:
-      BACKEND_URL: backend:8000
-      POSTGRES_PASSWORD: e2etest
-
-    steps:
-      - run: docker-compose -f e2e.yml run e2e
-        working-directory: kirjasto
-
+      
+      - name: Run E2E tests
+        run: docker-compose -f e2e.yml run e2e
+        env:
+          BACKEND_URL: backend:8000
+          POSTGRES_PASSWORD: e2etest
   
