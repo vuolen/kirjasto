@@ -1,4 +1,4 @@
-name: E2E tests
+name: Continuous Deployment
 
 on:
   push:
@@ -9,15 +9,11 @@ on:
 env:
   FRONTEND_LOCATION: ./kirjasto-frontend
   BACKEND_LOCATION: ./kirjasto-backend
-  BACKEND_URL: backend:8000
-  POSTGRES_PASSWORD: e2etest
 
 jobs:
-
-  e2e_test:
-
+  test:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout kirjasto
         uses: actions/checkout@v2
@@ -33,5 +29,14 @@ jobs:
         with:
           repository: vuolen/kirjasto-backend
           path: kirjasto-backend
-          
-      - run: docker-compose -f e2e.yml run e2e
+      
+      - name: Run E2E tests
+        run: docker-compose -f e2e.yml run e2e
+        env:
+          BACKEND_URL: backend:8000
+          POSTGRES_PASSWORD: e2etest
+  
+      - name: Deploy frontend
+        run: heroku login && heroku git:remote -a kirjasto-demo && git push heroku main
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
