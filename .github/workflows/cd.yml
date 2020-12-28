@@ -38,8 +38,8 @@ jobs:
   
       - name: Deploy frontend
         uses: akhileshns/heroku-deploy@v3.8.8
-          with:
-            heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-            heroku_app_name: "kirjasto-demo"
-            heroku_email: "vuolanne.lennu@gmail.com"
-            appdir: "kirjasto-frontend"
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "kirjasto-demo"
+          heroku_email: "vuolanne.lennu@gmail.com"
+          appdir: "kirjasto-frontend"
