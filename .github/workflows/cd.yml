@@ -31,9 +31,9 @@ jobs:
           path: kirjasto-backend
       
       - name: Run E2E tests
-        run: docker-compose -f e2e.yml run e2e
+        run: ./dev-env.sh run e2e
         env:
-          BACKEND_URL: backend:8000
+          BACKEND_URL: localhost:8000
           POSTGRES_PASSWORD: e2etest
   
       - name: Deploy frontend
