@@ -17,6 +17,8 @@ services:
             FRONTEND_URL: "localhost:8001"
             SELENIUM_REMOTE_URL: "http://localhost:4444/wd/hub"
             CUCUMBER_PUBLISH_ENABLED: "true"
+        volumes:
+            - .:/usr/src/app
         depends_on:
             - frontend
             - selenium

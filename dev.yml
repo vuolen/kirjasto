@@ -12,20 +12,28 @@ x-pg-env:
 services:
 
     frontend:
-        build: ${FRONTEND_LOCATION}
+        build:
+            context: ${FRONTEND_LOCATION}
+            target: dev
+        container_name: kirjasto-frontend-dev
+        image: kirjasto-frontend-dev
         environment:
             PORT: 8001
             BACKEND_URL: "localhost:8000"
+        volumes:
+            - ${FRONTEND_LOCATION}:/usr/src/app/
         depends_on:
             - backend
         network_mode: "host"
-        command: ["npm", "run", "wait", "development"]
 
     backend:
         build: ${BACKEND_LOCATION}
         environment:
             <<: *pg-env
             PORT: 8000
+            AUTH0SECRET: ${AUTH0SECRET}
+        volumes:
+            - ${BACKEND_LOCATION}:/usr/src/app
         depends_on:
             - db
         network_mode: "host"

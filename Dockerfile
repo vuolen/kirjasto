@@ -1,6 +1,2 @@
 FROM node:latest
-WORKDIR /usr/src/kirjasto
-
-COPY . .
-
-RUN npm install
+WORKDIR /usr/src/app
