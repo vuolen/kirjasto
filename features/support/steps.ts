@@ -51,7 +51,7 @@ setWorldConstructor(function(this: World, {attach, parameters}: {attach: any, pa
     this.addBook = async function(title: string) {
         const addBookPage = new AddBookPage(this.driver)
         await addBookPage.open()
-        await addBookPage.waitForVisible()
+        await addBookPage.waitUntilReady()
         await addBookPage.enterTitle(title)
     }
 })
@@ -66,7 +66,7 @@ Before(async function(this: World) {
         )
         .build()
 
-    this.client = new Client()
+    this.client = new Client({connectionString: process.env.DATABASE_URL})
     await this.client.connect()
     await this.client.query("TRUNCATE TABLE book")
 })

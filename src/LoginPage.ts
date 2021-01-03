@@ -1,25 +1,29 @@
-import { By, WebDriver } from "selenium-webdriver";
+import { By, until, WebDriver } from "selenium-webdriver";
 import { Component } from "./Component";
 import { HomePage } from "./HomePage";
 
 export class LoginPage extends Component {
 
-    constructor(driver: WebDriver) {
-        super(driver, By.css("html"))
-
-        this.descendants = {
-            "emailInput": new Component(driver, By.name("email")),
-            "passwordInput": new Component(driver, By.name("password")),
-            "submitButton": new Component(driver, By.name("submit"))
-        }
-    }
+    emailLocator = By.name("email")
+    passwordLocator = By.name("password")
+    submitLocator = By.name("submit")
 
     async login(email: string, password: string): Promise<HomePage> {
-        await this.sendKeys("emailInput", email)
-        await this.sendKeys("passwordInput", password)
-        await this.click("submitButton")
+        await this.waitUntilReady()
+        await this.driver.findElement(this.emailLocator).sendKeys(email)
+        await this.driver.findElement(this.passwordLocator).sendKeys(password)
+        await this.driver.findElement(this.submitLocator).click()
+        
         const homePage = new HomePage(this.driver)
-        await homePage.waitForVisible()
+        await homePage.waitUntilReady()
         return homePage
+    }
+
+    waitUntilReady() {
+        return Promise.all(
+            [this.emailLocator, this.passwordLocator, this.submitLocator].map(
+                locator => this.driver.wait(until.elementLocated(locator)).then(elem => this.driver.wait(until.elementIsVisible(elem)))
+            )
+        )
     }
 }

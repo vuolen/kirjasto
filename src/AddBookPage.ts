@@ -1,16 +1,15 @@
-import { By, WebDriver } from "selenium-webdriver";
+import { By, until, WebDriver } from "selenium-webdriver";
 import { Component } from "./Component";
 import { FRONTEND_URL } from "./env";
 
-export class AddBookPage extends Component {
+export class AddBookPage {
+    driver: WebDriver
+
+    titleLocator = By.id("title")
+    errorLocator = By.id("error")
 
     constructor(driver: WebDriver) {
-        super(driver, By.id("root"))
-
-        this.descendants = {
-            "titleInput": new Component(driver, By.name("title")),
-            "error": new Component(driver, By.className("error"))
-        }
+        this.driver = driver
     }
 
     open() {
@@ -18,12 +17,20 @@ export class AddBookPage extends Component {
     }
 
     enterTitle(title: string) {
-        return this.sendKeys("titleInput", title)
+        return this.driver.findElement(this.titleLocator).sendKeys(title)
     }
 
     getError() {
-        return this.findDescendant("error").then(
-            errorMessage => errorMessage.getText()
+        return this.driver.findElement(this.errorLocator).getText()
+    }
+
+    waitUntilReady() {
+        return this.driver.wait(
+            until.elementLocated(this.titleLocator)
+        ).then(
+            elem => this.driver.wait(
+                until.elementIsVisible(elem)
+            )
         )
     }
 }
