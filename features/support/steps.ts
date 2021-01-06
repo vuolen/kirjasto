@@ -52,7 +52,7 @@ setWorldConstructor(function(this: World, {attach, parameters}: {attach: any, pa
         const addBookPage = new AddBookPage(this.driver)
         await addBookPage.open()
         await addBookPage.waitUntilReady()
-        await addBookPage.enterTitle(title)
+        await addBookPage.addBook(title)
     }
 })
 
@@ -108,7 +108,11 @@ When("the user tries to create a book with an empty title", async function(this:
     return this.addBook("")
 })
 
-When("the user tries to create a book with a valid title", async function(this: World) {
+When("the user tries to create a book with the title {string}", function(this: World, title: string) {
+    return this.addBook(title)
+})
+
+When("the user tries to create a book with a valid title", function(this: World) {
     return this.addBook(VALID_BOOK.title)
 })
 
@@ -120,8 +124,10 @@ When('the user searches books by the title {string}', async function (this: Worl
 
 
 Then('a book appears in the book search', async function (this: World) {
-    await this.driver.get(FRONTEND_URL)
-    return this.driver.findElement(By.css("li"))
+    const homePage = new HomePage(this.driver)
+    await homePage.open()
+    const res = await homePage.getSearchResult()
+    assert(res.length > 0)
 })
 
 Then("the page should contain {string}", function(this: World, str: string) { 
@@ -143,23 +149,16 @@ Then('the user receives an error message about invalid permissions', function (t
 
 Then("a book with the title {string} does not appear in the search", async function(this: World, title: string) {
     const homePage = new HomePage(this.driver)
+    await homePage.open()
     const result = await homePage.getSearchResult()
     assert(result.every(s => !s.includes(title)))
 })
 
 Then('a book with the title {string} appears in the search', async function(this: World, title: string) {
     const homePage = new HomePage(this.driver)
+    await homePage.open()
     const result = await homePage.getSearchResult()
     assert(result.some(s => s.includes(title)))
-})
-
-
-Then("the book does not appear in the book search", async function(this: World) {
-    await this.driver.get(FRONTEND_URL)
-    return this.driver.findElement(By.css("li")).then(
-        () => assert(false),
-        () => assert(true)
-    )
 })
 
 Then("the server responds with a page", function(this: World) {
@@ -172,4 +171,16 @@ Then('the user receives an error message about an empty title', function(this: W
             && message.toLowerCase().includes("title")
     )
     
+})
+
+Then('the search results contain a book with the title {string}', async function(this: World, title: string) {
+    const homePage = new HomePage(this.driver)
+    const result = await homePage.getSearchResult()
+    assert(result.some(s => s.includes(title)))
+})
+
+Then('the search results do not contain a book with the title {string}', async function(this: World, title: string) {
+    const homePage = new HomePage(this.driver)
+    const result = await homePage.getSearchResult()
+    assert(result.every(s => !s.includes(title)))
 })
