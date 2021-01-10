@@ -28,6 +28,7 @@ services:
             BACKEND_URL: "localhost:8000"
         volumes:
             - ${FRONTEND_LOCATION}:/usr/src/app/
+            - /usr/src/app/node_modules
         depends_on:
             - backend
         network_mode: "host"
@@ -42,6 +43,7 @@ services:
             PORT: 8000
         volumes:
             - ${BACKEND_LOCATION}:/usr/src/app
+            - /usr/src/app/node_modules
         depends_on:
             - db
         network_mode: "host"
