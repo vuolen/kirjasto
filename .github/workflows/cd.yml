@@ -36,6 +36,7 @@ jobs:
             POSTGRES_PASSWORD=e2etest
             DATABASE_URL=postgres://postgres:e2etest@localhost:5432/postgres" > github_e2e.env
           docker-compose -f dev.yml --env-file github_e2e.env run e2e
+          docker-compose -f dev.yml --env-file github_e2e.env logs
   
       - name: Login to Heroku
         run: heroku container:login
