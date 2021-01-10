@@ -5,10 +5,7 @@ on:
     branches: [ main ]
   repository_dispatch:
     types: [frontend_push, backend_push]
- 
-env:
-  FRONTEND_LOCATION: ./kirjasto-frontend
-  BACKEND_LOCATION: ./kirjasto-backend
+
 
 jobs:
   test:
@@ -31,17 +28,23 @@ jobs:
           path: kirjasto-backend
       
       - name: Run E2E tests
-        run: ./dev-env.sh run e2e
-        env:
-          BACKEND_URL: localhost:8000
-          POSTGRES_PASSWORD: e2etest
+        run: |
+          echo "FRONTEND_LOCATION=./kirjasto-frontend
+            BACKEND_LOCATION=./kirjasto-backend
+            POSTGRES_DB=postgres
+            POSTGRES_USER=postgres
+            POSTGRES_PASSWORD=e2etest
+            DATABASE_URL=postgres://postgres:e2etest@localhost:5432/postgres" > github_e2e.env
+          docker-compose -f dev.yml --env-file github_e2e.env up e2e
+      
+      - run: docker-compose -f dev.yml --env-file github_e2e.env logs
   
       - name: Login to Heroku
         run: heroku container:login
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
           
-      - name: Deploy frontend
+      - name: Deploy frontendrun
         run: |
           docker build --target prod -t registry.heroku.com/kirjasto-demo/web kirjasto-frontend
           docker push registry.heroku.com/kirjasto-demo/web
