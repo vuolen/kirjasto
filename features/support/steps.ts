@@ -7,12 +7,7 @@ import { ITestCaseHookParameter } from "@cucumber/cucumber/lib/support_code_libr
 import { AddBookPage } from "../../src/AddBookPage";
 import { HomePage } from "../../src/HomePage";
 
-setDefaultTimeout(10000);
-
-if (!process.env.FRONTEND_URL) {
-    throw new Error("Aborting! Environment variable FRONTEND_URL was not specified")
-}
-const FRONTEND_URL = process.env.FRONTEND_URL
+setDefaultTimeout(30000);
 
 const VALID_BOOK = {
     title: "Test Book"
@@ -63,6 +58,8 @@ Before(async function(this: World) {
         .withCapabilities(
             new Capabilities().setLoggingPrefs(prefs)
                 .setBrowserName("chrome")
+                .setAcceptInsecureCerts(true)
+                .set("chromeOptions", {"args": ["--disable-dev-shm-usage"]})
         )
         .build()
 
@@ -142,8 +139,9 @@ Then("the page should not contain {string}", function(this: World, str: string) 
 })
 
 Then('the user receives an error message about invalid permissions', function (this: World) {
-    return this.driver.findElement(By.className('error')).getText().then(
-        text => assert(text.toLowerCase().includes("invalid") && text.toLowerCase().includes("permissions"))
+    return new AddBookPage(this.driver).getError().then(
+        message => message.toLowerCase().includes("invalid")
+            && message.toLowerCase().includes("permissions")
     )
 })
 
