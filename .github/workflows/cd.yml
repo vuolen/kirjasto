@@ -44,14 +44,14 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
           
-      - name: Deploy frontendrun
+      - name: Deploy frontend
         run: |
           docker build --target prod -t registry.heroku.com/kirjasto-demo/web kirjasto-frontend
           docker push registry.heroku.com/kirjasto-demo/web
-          heroku container:release web
+          heroku container:release web -a kirjasto-demo
           
       - name: Deploy backend
         run: |
           docker build --target prod -t registry.heroku.com/kirjasto-backend/web kirjasto-backend
           docker push registry.heroku.com/kirjasto-backend/web
-          heroku container:release web
+          heroku container:release web -a kirjasto-backend
