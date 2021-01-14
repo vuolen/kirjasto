@@ -1,5 +1,5 @@
 import { Given, Then, After, Before, Status, When, setWorldConstructor, setDefaultTimeout } from "@cucumber/cucumber"
-import { Builder, By, Capabilities, logging, until, WebElementPromise } from "selenium-webdriver"
+import { Builder, By, Capabilities, IWebDriverCookie, logging, until, WebElementPromise } from "selenium-webdriver"
 import { Client } from "pg"
 import * as assert from "assert"
 import { Driver } from "selenium-webdriver/chrome";
@@ -14,10 +14,10 @@ const VALID_BOOK = {
 }
 
 interface World {
-    attach: any,
+    attach: any
     parameters: any
-    client: Client,
-    driver: Driver,
+    client: Client
+    driver: Driver
     waitForElementIsVisible: (locator: By) => WebElementPromise
     login: (email: string, password: string) => void
     pageContainsString: (str: string) => WebElementPromise
@@ -28,11 +28,8 @@ setWorldConstructor(function(this: World, {attach, parameters}: {attach: any, pa
     this.attach = attach;
     this.parameters = parameters;
 
-    this.waitForElementIsVisible = function(locator: By) {
-        return this.driver.wait(until.elementIsVisible(this.driver.wait(until.elementLocated(locator))))
-    }
-
     this.login = async function(email: string, password: string) {
+        const key = email + "/" + password // probably no clashes here
         const homePage = new HomePage(this.driver)
         await homePage.open()
         const loginPage = await homePage.openLogin()
