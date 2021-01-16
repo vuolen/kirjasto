@@ -38,20 +38,21 @@ jobs:
           docker-compose -f dev.yml --env-file github_e2e.env run e2e
       
       - run: docker-compose -f dev.yml --env-file github_e2e.env logs
-  
-      - name: Login to Heroku
-        run: heroku container:login
+          
+      - name: Deploy frontend
+        run: |
+          heroku container:login
+          docker build --target prod -t registry.heroku.com/kirjasto-demo/web kirjasto-frontend
+          docker push registry.heroku.com/kirjasto-demo/web
+          heroku container:release web -a kirjasto-demo
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
           
-      - name: Deploy frontendrun
-        run: |
-          docker build --target prod -t registry.heroku.com/kirjasto-demo/web kirjasto-frontend
-          docker push registry.heroku.com/kirjasto-demo/web
-          heroku container:release web
-          
       - name: Deploy backend
         run: |
+          heroku container:login
           docker build --target prod -t registry.heroku.com/kirjasto-backend/web kirjasto-backend
           docker push registry.heroku.com/kirjasto-backend/web
-          heroku container:release web
+          heroku container:release web -a kirjasto-backend
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
