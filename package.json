@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/vuolen/kirjasto#readme",
   "dependencies": {
-    "@cucumber/cucumber": "^7.0.0-rc.0",
+    "@cucumber/cucumber": "^7.0.0",
     "@types/cucumber": "^6.0.1",
-    "@types/pg": "^7.14.7",
+    "@types/pg": "^7.14.8",
     "@types/selenium-webdriver": "^4.0.10",
     "pg": "^8.5.1",
     "selenium-webdriver": "^4.0.0-alpha.8",
