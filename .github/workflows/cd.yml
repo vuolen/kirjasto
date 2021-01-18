@@ -2,7 +2,9 @@ name: Continuous Deployment
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+  pull_request:
+    branches: [main]
   repository_dispatch:
     types: [frontend_push, backend_push]
 
