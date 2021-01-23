@@ -8,7 +8,7 @@
   },
   "scripts": {
     "wait": "./wait-for-it.sh ${FRONTEND_URL} -- npm run",
-    "test": "cucumber-js $@ --require-module ts-node/register --require 'features/support/steps.ts'"
+    "test": "cucumber-js --require-module ts-node/register --require 'features/support/steps.ts'"
   },
   "repository": {
     "type": "git",

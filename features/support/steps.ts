@@ -9,8 +9,14 @@ import { HomePage } from "../../src/HomePage";
 
 setDefaultTimeout(30000);
 
-const VALID_BOOK = {
-    title: "Test Book"
+interface Book {
+    title: string
+    author: string
+}
+
+const VALID_BOOK: Book = {
+    title: "Test Book",
+    author: "Test Testersson"
 }
 
 interface World {
@@ -21,7 +27,8 @@ interface World {
     waitForElementIsVisible: (locator: By) => WebElementPromise
     login: (email: string, password: string) => void
     pageContainsString: (str: string) => WebElementPromise
-    addBook: (title: string) => void
+    addBook: (book: Book) => void
+    addedBook: Book
 }
 
 setWorldConstructor(function(this: World, {attach, parameters}: {attach: any, parameters: any}) {
@@ -29,7 +36,6 @@ setWorldConstructor(function(this: World, {attach, parameters}: {attach: any, pa
     this.parameters = parameters;
 
     this.login = async function(email: string, password: string) {
-        const key = email + "/" + password // probably no clashes here
         const homePage = new HomePage(this.driver)
         await homePage.open()
         const loginPage = await homePage.openLogin()
@@ -40,11 +46,13 @@ setWorldConstructor(function(this: World, {attach, parameters}: {attach: any, pa
         return this.driver.findElement(By.xpath("//*[text()[contains(., '" + str + "')]]"))
     }
 
-    this.addBook = async function(title: string) {
+    this.addBook = async function(book: Book) {
         const addBookPage = new AddBookPage(this.driver)
         await addBookPage.open()
         await addBookPage.waitUntilReady()
-        await addBookPage.addBook(title)
+        await addBookPage.addBook(book)
+
+        this.addedBook = book
     }
 })
 
@@ -95,19 +103,15 @@ Given("the user is authenticated as a normal user", async function(this: World) 
 })
 
 Given("a book with the title {string} exists in the database", function(this: World, title: string) {
-    return this.client.query("INSERT INTO book(title) VALUES($1)", [title])
+    return this.client.query("INSERT INTO book(title, author) VALUES($1, $2)", [title, VALID_BOOK.author])
 })
 
-When("the user tries to create a book with an empty title", async function(this: World) {
-    return this.addBook("")
+When("the user tries to add a book with an empty title", async function(this: World) {
+    return this.addBook({...VALID_BOOK, title: ""})
 })
 
-When("the user tries to create a book with the title {string}", function(this: World, title: string) {
-    return this.addBook(title)
-})
-
-When("the user tries to create a book with a valid title", function(this: World) {
-    return this.addBook(VALID_BOOK.title)
+When("the user tries to add a valid book", async function(this: World) {
+    return this.addBook(VALID_BOOK)
 })
 
 When('the user searches books by the title {string}', async function (this: World, title: string) {
@@ -116,24 +120,20 @@ When('the user searches books by the title {string}', async function (this: Worl
     await homePage.enterTitleSearch(title)
 })
 
-
-Then('a book appears in the book search', async function (this: World) {
+Then('the book appears in the search', async function (this: World) {
     const homePage = new HomePage(this.driver)
     await homePage.open()
     const res = await homePage.getSearchResult()
-    assert(res.length > 0)
-})
+    assert(res.some(book => book.includes(this.addedBook.author) && book.includes(this.addedBook.title)))
+});
 
-Then("the page should contain {string}", function(this: World, str: string) { 
-    return this.pageContainsString(str)
-})
+Then('the book does not appear in the search', async function (this: World) {
+    const homePage = new HomePage(this.driver)
+    await homePage.open()
+    const res = await homePage.getSearchResult()
+    assert(!res.some(book => book.includes(this.addedBook.author) && book.includes(this.addedBook.title)))
+});
 
-Then("the page should not contain {string}", function(this: World, str: string) {
-    return this.pageContainsString(str).then(
-        () => new Error("Page contains string"),
-        () => {return}
-    )
-})
 
 Then('the user receives an error message about invalid permissions', function (this: World) {
     return new AddBookPage(this.driver).getError().then(
@@ -142,19 +142,7 @@ Then('the user receives an error message about invalid permissions', function (t
     )
 })
 
-Then("a book with the title {string} does not appear in the search", async function(this: World, title: string) {
-    const homePage = new HomePage(this.driver)
-    await homePage.open()
-    const result = await homePage.getSearchResult()
-    assert(result.every(s => !s.includes(title)))
-})
 
-Then('a book with the title {string} appears in the search', async function(this: World, title: string) {
-    const homePage = new HomePage(this.driver)
-    await homePage.open()
-    const result = await homePage.getSearchResult()
-    assert(result.some(s => s.includes(title)))
-})
 
 Then("the server responds with a page", function(this: World) {
     return this.driver.findElement(By.css("html"))

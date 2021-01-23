@@ -6,6 +6,7 @@ export class AddBookPage {
     driver: WebDriver
 
     titleLocator = By.id("title")
+    authorLocator = By.id("author")
     submitLocator = By.id("submit")
     errorLocator = By.id("error")
 
@@ -21,12 +22,18 @@ export class AddBookPage {
         return this.driver.findElement(this.titleLocator).sendKeys(title)
     }
 
+    enterAuthor(author: string) {
+        return this.driver.findElement(this.authorLocator).sendKeys(author)
+    }
+
     submit() {
         return this.driver.findElement(this.submitLocator).click()
     }
 
-    addBook(title: string) {
-        return this.enterTitle(title).then(
+    addBook(book: {title: string, author: string}) {
+        return this.enterTitle(book.title).then(
+            () => this.enterAuthor(book.author)
+        ).then(
             () => this.submit()
         )
     }
