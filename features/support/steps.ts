@@ -64,7 +64,6 @@ Before(async function(this: World) {
             new Capabilities().setLoggingPrefs(prefs)
                 .setBrowserName("chrome")
                 .setAcceptInsecureCerts(true)
-                .set("chromeOptions", {"args": ["--disable-dev-shm-usage"]})
         )
         .build()
 

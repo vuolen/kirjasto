@@ -21,6 +21,7 @@ services:
         network_mode: "host"
         extra_hosts:
             - "kirjasto:127.0.0.1"
+        shm_size: 2g
 
     frontend:
         build:
