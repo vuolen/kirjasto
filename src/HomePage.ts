@@ -1,4 +1,5 @@
 import { By, until, WebDriver } from "selenium-webdriver";
+import { Book } from "../features/support/steps";
 import { Component } from "./Component";
 import { FRONTEND_URL } from "./env";
 import { LoginPage } from "./LoginPage";
@@ -8,7 +9,7 @@ export class HomePage extends Component {
     loginLocator = By.id("login")
     logoutLocator = By.id("logout")
     searchInputLocator = By.id("search-bar")
-    searchResultLocator = By.css("ul")
+    searchResultsLocator = By.css("[data-se='book']")
 
     async open() {
         return this.driver.get(FRONTEND_URL + "/")
@@ -26,11 +27,16 @@ export class HomePage extends Component {
     }
 
     async getSearchResult() {
-        return this.driver.findElements(By.css("li")).then(
-            elems => Promise.all(elems.map(
-                elem => elem.getText()
-            ))
-        )
+        const results = await this.driver.findElements(this.searchResultsLocator)
+        
+        return Promise.all(results.map(
+            async result => {
+                const title = await result.findElement(By.css("[data-se='title']")).getText()
+                const author = await result.findElement(By.css("[data-se='author']")).getText()
+
+                return {title, author} as Book
+            }
+        ))
     }
 
     waitUntilReady() {

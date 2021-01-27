@@ -9,7 +9,7 @@ import { HomePage } from "../../src/HomePage";
 
 setDefaultTimeout(30000);
 
-interface Book {
+export interface Book {
     title: string
     author: string
 }
@@ -123,14 +123,14 @@ Then('the book appears in the search', async function (this: World) {
     const homePage = new HomePage(this.driver)
     await homePage.open()
     const res = await homePage.getSearchResult()
-    assert(res.some(book => book.includes(this.addedBook.author) && book.includes(this.addedBook.title)))
+    assert(res.some(book => book.author.includes(this.addedBook.author) && book.title.includes(this.addedBook.title)))
 });
 
 Then('the book does not appear in the search', async function (this: World) {
     const homePage = new HomePage(this.driver)
     await homePage.open()
     const res = await homePage.getSearchResult()
-    assert(!res.some(book => book.includes(this.addedBook.author) && book.includes(this.addedBook.title)))
+    assert(!res.some(book => book.author.includes(this.addedBook.author) && book.title.includes(this.addedBook.title)))
 });
 
 
@@ -158,11 +158,11 @@ Then('the user receives an error message about an empty title', function(this: W
 Then('the search results contain a book with the title {string}', async function(this: World, title: string) {
     const homePage = new HomePage(this.driver)
     const result = await homePage.getSearchResult()
-    assert(result.some(s => s.includes(title)))
+    assert(result.some(s => s.title.includes(title)))
 })
 
 Then('the search results do not contain a book with the title {string}', async function(this: World, title: string) {
     const homePage = new HomePage(this.driver)
     const result = await homePage.getSearchResult()
-    assert(result.every(s => !s.includes(title)))
+    assert(result.every(s => !s.title.includes(title)))
 })
