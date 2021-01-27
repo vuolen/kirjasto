@@ -34,7 +34,8 @@ services:
             BACKEND_URL: "localhost:8000"
         volumes:
             - ${FRONTEND_LOCATION}/src:/usr/src/app/src
-            - ${FRONTEND_LOCATION}/dev.config.js:/usr/src/app/dev.config.js
+            - ${FRONTEND_LOCATION}/webpack.dev.js:/usr/src/app/webpack.dev.js
+            - ${FRONTEND_LOCATION}/webpack.common.js:/usr/src/app/webpack.common.js
 
         depends_on:
             - backend
