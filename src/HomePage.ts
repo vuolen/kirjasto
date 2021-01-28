@@ -40,10 +40,10 @@ export class HomePage extends Component {
     }
 
     waitUntilReady() {
-        return this.driver.wait(
-            until.elementLocated(By.css("#login, #logout"))
-        ).then(
-            elem => until.elementIsVisible(elem)
+        return Promise.all(
+            [By.css("#login, #logout"), this.searchInputLocator].map(
+                locator => this.driver.wait(until.elementLocated(locator)).then(elem => this.driver.wait(until.elementIsVisible(elem)))
+            )
         )
     }
 }

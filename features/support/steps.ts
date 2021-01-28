@@ -102,7 +102,7 @@ Given("the user is authenticated as a normal user", async function(this: World) 
 })
 
 Given("a book with the title {string} exists in the database", function(this: World, title: string) {
-    return this.client.query("INSERT INTO book(title, author) VALUES($1, $2)", [title, VALID_BOOK.author])
+    return this.client.query("INSERT INTO book(title) VALUES($1)", [title])
 })
 
 When("the user tries to add a book with an empty title", async function(this: World) {

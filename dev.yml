@@ -40,6 +40,7 @@ services:
         depends_on:
             - backend
         network_mode: "host"
+        restart: on-failure
 
     backend:
         build:
@@ -55,6 +56,7 @@ services:
         depends_on:
             - db
         network_mode: "host"
+        restart: on-failure
             
     db:
         image: postgres
@@ -64,3 +66,4 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
         network_mode: "host"
         command: ["postgres", "-c", "log_statement=all"]
+        restart: on-failure
