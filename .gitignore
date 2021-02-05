@@ -1,3 +1,5 @@
 kirjasto-backend
 kirjasto-frontend
 node_modules
+cypress/screenshots
+cypress/videos
