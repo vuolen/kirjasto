@@ -36,7 +36,7 @@ jobs:
             POSTGRES_DB=postgres
             POSTGRES_USER=postgres
             POSTGRES_PASSWORD=e2etest
-            DATABASE_URL=postgres://postgres:e2etest@localhost:5432/postgres" > dev.env
+            DATABASE_URL=postgres://postgres:e2etest@localhost:5432/postgres" > config.env
           npm run start-dev && npm run e2e    
       
           
