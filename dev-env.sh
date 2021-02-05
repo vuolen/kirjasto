@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-docker-compose -f dev.yml --env-file config.env $@
+docker-compose --env-file config.env $@

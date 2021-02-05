@@ -7,8 +7,11 @@
     "doc": "doc"
   },
   "scripts": {
-    "wait": "./wait-for-it.sh ${FRONTEND_URL} -- npm run",
-    "test": "cucumber-js --require-module ts-node/register --require 'features/support/steps.ts'"
+    "start-dev": "./dev-env.sh up -d frontend backend db && wait-on https://kirjasto:8001",
+    "stop-dev": "./dev-env.sh down",
+    "reset-db": "echo 'TRUNCATE book,author CASCADE' | ./dev-env.sh exec -T db psql -U postgres",
+    "e2e": "cypress run",
+    "e2e-gui": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -23,10 +26,12 @@
   "dependencies": {
     "@cucumber/cucumber": "^7.0.0",
     "@types/cucumber": "^7.0.0",
-    "@types/pg": "^7.14.8",
     "@types/selenium-webdriver": "^4.0.10",
-    "pg": "^8.5.1",
     "selenium-webdriver": "^4.0.0-alpha.8",
     "typescript": "^4.1.3"
+  },
+  "devDependencies": {
+    "cypress": "^6.4.0",
+    "wait-on": "^5.2.1"
   }
 }

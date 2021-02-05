@@ -1,0 +1,4 @@
+{
+    "baseUrl": "https://kirjasto:8001",
+    "supportFile": "cypress/support/index.ts"
+}

@@ -1,27 +1,6 @@
 version: "3.8"
 
 services:
-    e2e:
-        build: .
-        environment:
-            DATABASE_URL: ${DATABASE_URL}
-            FRONTEND_URL: "kirjasto:8001"
-            SELENIUM_REMOTE_URL: "http://localhost:4444/wd/hub"
-            CUCUMBER_PUBLISH_ENABLED: "true"
-        volumes:
-            - ./src:/usr/src/app/src
-            - ./features:/usr/src/app/features
-        depends_on:
-            - frontend
-            - selenium
-        network_mode: "host"
-        
-    selenium:
-        image: selenium/standalone-chrome
-        network_mode: "host"
-        extra_hosts:
-            - "kirjasto:127.0.0.1"
-        shm_size: 2g
 
     frontend:
         build:
@@ -36,7 +15,6 @@ services:
             - ${FRONTEND_LOCATION}/src:/usr/src/app/src
             - ${FRONTEND_LOCATION}/webpack.dev.js:/usr/src/app/webpack.dev.js
             - ${FRONTEND_LOCATION}/webpack.common.js:/usr/src/app/webpack.common.js
-
         depends_on:
             - backend
         network_mode: "host"

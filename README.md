@@ -4,7 +4,7 @@
 Kirjasto is a library management system.
 
 # Demo
-You can find a demo running [here](https://kirjasto-demo.herokuapp.com/). You can login as an admin with the email `admin@example.com` and the password `E2Eadmin` or as a normal user with the email `user@example.com` and the password `E2Euserpassword`
+You can find a demo running [here](https://kirjasto-demo.herokuapp.com/). You can login as an admin with the email `admin@example.com` and the password `admin` or as a normal user with the email `user@example.com` and the password `user`
 
 # Dev environment
 To run the whole project locally, use `./dev-env.sh up frontend backend db`.
