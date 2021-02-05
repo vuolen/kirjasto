@@ -37,8 +37,7 @@ jobs:
             POSTGRES_USER=postgres
             POSTGRES_PASSWORD=e2etest
             DATABASE_URL=postgres://postgres:e2etest@localhost:5432/postgres" > config.env
-          sudo echo "127.0.0.1 kirjasto" >> /etc/hosts
-          npm run start-dev && npm run e2e    
+          ./kirjasto.sh start-dev && ./kirjasto.sh e2e
       
           
       - name: Deploy frontend

@@ -30,7 +30,7 @@ declare global {
             loginAsAdmin: () => void
             loginAsUser: () => void
             loginAs(username: string, password: string)
-            resetDB: () => void
+            emptyDB: () => void
         }
     }
 }
@@ -61,8 +61,8 @@ Cypress.Commands.add("loginAs", (username, password) => {
     )
 })
 
-Cypress.Commands.add("resetDB", () => {
-    cy.exec("npm run reset-db")
+Cypress.Commands.add("emptyDB", () => {
+    cy.exec("npm run empty-db")
 })
 
 export {}

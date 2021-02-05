@@ -1,6 +1,6 @@
 describe("Adding a book", () => {
     beforeEach(() => {
-        cy.resetDB()
+        cy.emptyDB()
     })
 
     describe("as an admin", () => {

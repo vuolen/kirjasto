@@ -1,6 +1,11 @@
 version: "3.8"
 
 services:
+    e2e:
+        build: e2e
+        extra_hosts:
+            - "kirjasto:127.0.0.1"
+        network_mode: "host"
 
     frontend:
         build:

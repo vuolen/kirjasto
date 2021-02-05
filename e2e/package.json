@@ -7,10 +7,9 @@
     "doc": "doc"
   },
   "scripts": {
-    "start-dev": "./dev-env.sh up -d frontend backend db && wait-on https://kirjasto:8001",
-    "stop-dev": "./dev-env.sh down",
-    "reset-db": "echo 'TRUNCATE book,author CASCADE' | ./dev-env.sh exec -T db psql -U postgres",
-    "e2e": "cypress run",
+    "empty-db": "psql -h localhost -U postgres -c 'TRUNCATE TABLE book, author;'",
+    "db": "psql --version",
+    "e2e": "wait-on https://kirjasto:8001 && cypress run",
     "e2e-gui": "cypress open"
   },
   "repository": {
@@ -24,12 +23,9 @@
   },
   "homepage": "https://github.com/vuolen/kirjasto#readme",
   "dependencies": {
-    "@cucumber/cucumber": "^7.0.0",
-    "@types/cucumber": "^7.0.0",
-    "@types/selenium-webdriver": "^4.0.10",
-    "selenium-webdriver": "^4.0.0-alpha.8",
-    "typescript": "^4.1.3",
     "cypress": "^6.4.0",
+    "postgres": "^1.0.2",
+    "typescript": "^4.1.3",
     "wait-on": "^5.2.1"
   }
 }
