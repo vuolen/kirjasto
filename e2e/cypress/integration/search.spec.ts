@@ -4,7 +4,7 @@ describe("Book search", () => {
     beforeEach(() => {
         cy.emptyDB()
         cy.loginAsUser()
-        cy.addBook({title: "Test Book"})
+        cy.addBook({title: "Test Book", author: {name: "Test Author"}})
     })
 
     it("shows book with matching title", () => {
@@ -13,9 +13,15 @@ describe("Book search", () => {
         cy.get("[data-cy=title]").contains("Test Book").should("exist")
     })
 
-    it("does not show book with not matching title", () => {
+    it("does not show book with not matching title or author", () => {
         cy.visit("/")
         cy.get("[data-cy=search] > input").type("Nope")
         cy.get("[data-cy=title]").should("not.exist")
+    })
+
+    it("shows book with matching author", () => {
+        cy.visit("/")
+        cy.get("[data-cy=search] > input").type("Author")
+        cy.get("[data-cy=title]").contains("Test Book").should("exist")
     })
 })

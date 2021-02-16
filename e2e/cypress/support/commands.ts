@@ -31,7 +31,7 @@ declare global {
             loginAsUser: () => void
             loginAs(username: string, password: string)
             emptyDB: () => void
-            addBook: (book: {title?: string}) => void
+            addBook: (book: {title?: string, author?: {name: string}}) => void
         }
     }
 }
@@ -66,7 +66,7 @@ Cypress.Commands.add("emptyDB", () => {
     cy.exec("npm run empty-db")
 })
 
-Cypress.Commands.add("addBook", (book: {title?: string}) => {
+Cypress.Commands.add("addBook", (book: {title?: string, author?: {name: string}}) => {
     const VALID_BOOK = {title: "Test Book"}
     getAccessToken("admin@example.com", "admin").then(
         token => cy.request({
