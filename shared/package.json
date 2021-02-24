@@ -1,0 +1,19 @@
+{
+  "name": "kirjasto-shared",
+  "version": "0.0.1",
+  "description": "Shared code for the backend and frontend",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lennu Vuolanne",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "fp-ts": "^2.9.5",
+    "io-ts": "^2.2.15",
+    "io-ts-types": "^0.5.15",
+    "monocle-ts": "^2.3.5",
+    "newtype-ts": "^0.3.4"
+  }
+}

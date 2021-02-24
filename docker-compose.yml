@@ -21,6 +21,7 @@ services:
             - ${FRONTEND_LOCATION}/test:/usr/src/app/test
             - ${FRONTEND_LOCATION}/webpack.dev.js:/usr/src/app/webpack.dev.js
             - ${FRONTEND_LOCATION}/webpack.common.js:/usr/src/app/webpack.common.js
+            - ./shared:/usr/src/shared
         depends_on:
             - backend
         network_mode: "host"
@@ -37,6 +38,7 @@ services:
         volumes:
             - ${BACKEND_LOCATION}:/usr/src/app
             - /usr/src/app/node_modules
+            - ./shared:/usr/src/shared
         depends_on:
             - db
         network_mode: "host"
