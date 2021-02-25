@@ -9,7 +9,8 @@ services:
 
     frontend:
         build:
-            context: ${FRONTEND_LOCATION}
+            context: .
+            dockerfile: ${FRONTEND_LOCATION}/Dockerfile
             target: dev
         container_name: kirjasto-frontend-dev
         image: kirjasto-frontend-dev
@@ -17,11 +18,11 @@ services:
             PORT: 8001
             BACKEND_URL: "localhost:8000"
         volumes:
-            - ${FRONTEND_LOCATION}/src:/usr/src/app/src
-            - ${FRONTEND_LOCATION}/test:/usr/src/app/test
-            - ${FRONTEND_LOCATION}/webpack.dev.js:/usr/src/app/webpack.dev.js
-            - ${FRONTEND_LOCATION}/webpack.common.js:/usr/src/app/webpack.common.js
-            - ./shared:/usr/src/shared
+            - ${FRONTEND_LOCATION}/src:/usr/src/app/frontend/src
+            - ${FRONTEND_LOCATION}/test:/usr/src/app/frontend/test
+            - ${FRONTEND_LOCATION}/webpack.dev.js:/usr/src/app/frontend/webpack.dev.js
+            - ${FRONTEND_LOCATION}/webpack.common.js:/usr/src/app/frontend/webpack.common.js
+            - ./shared:/usr/src/app/shared
         depends_on:
             - backend
         network_mode: "host"
@@ -29,16 +30,17 @@ services:
 
     backend:
         build:
-            context: ${BACKEND_LOCATION}
+            context: .
+            dockerfile: ${BACKEND_LOCATION}/Dockerfile
             target: dev
         container_name: kirjasto-backend-dev
         environment:
             DATABASE_URL: ${DATABASE_URL}
             PORT: 8000
         volumes:
-            - ${BACKEND_LOCATION}:/usr/src/app
+            - ${BACKEND_LOCATION}:/usr/src/app/backend
             - /usr/src/app/node_modules
-            - ./shared:/usr/src/shared
+            - ./shared:/usr/src/app/shared
         depends_on:
             - db
         network_mode: "host"
