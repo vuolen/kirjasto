@@ -48,7 +48,7 @@ jobs:
       - name: Deploy frontend
         run: |
           heroku container:login
-          docker build --target prod -t registry.heroku.com/kirjasto-demo/web kirjasto-frontend
+          docker build -f kirjasto-frontend/Dockerfile --target prod -t registry.heroku.com/kirjasto-demo/web .
           docker push registry.heroku.com/kirjasto-demo/web
           heroku container:release web -a kirjasto-demo
         env:
@@ -57,7 +57,7 @@ jobs:
       - name: Deploy backend
         run: |
           heroku container:login
-          docker build --target prod -t registry.heroku.com/kirjasto-backend/web kirjasto-backend
+          docker build -f kirjasto-backend/Dockerfile --target prod -t registry.heroku.com/kirjasto-backend/web .
           docker push registry.heroku.com/kirjasto-backend/web
           heroku container:release web -a kirjasto-backend
         env:
