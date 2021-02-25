@@ -1,1 +1,0 @@
-{"version":3,"file":"GetBooks.d.ts","sourceRoot":"","sources":["../src/GetBooks.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,CAAC,MAAM,OAAO,CAAA;AAG1B,eAAO,MAAM,eAAe,SAAS,CAAA;AACrC,oBAAY,eAAe,GAAG,CAAC,CAAC,MAAM,CAAC,OAAO,eAAe,CAAC,CAAA;AAE9D,eAAO,MAAM,gBAAgB;;;;;;;GAAgB,CAAA;AAC7C,oBAAY,gBAAgB,GAAG,CAAC,CAAC,MAAM,CAAC,OAAO,gBAAgB,CAAC,CAAA"}
