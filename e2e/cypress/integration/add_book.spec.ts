@@ -18,16 +18,17 @@ describe("Adding a book", () => {
 
             cy.visit("/")
             cy.get("[data-cy=books]").should("exist")
-            cy.get("[data-cy=book]").should("not.exist")
+            cy.contains("Valid Author").should("not.exist")
         })
     
         it("valid book added to list", () => {
             cy.get("[data-cy=title]").type("Valid Title")
-            cy.get("[data-cy=author]").type("Valid Author")
+            cy.get("[data-cy=author]").type("Valid Author{enter}")
             cy.get("[data-cy=submit]").click()
     
             cy.visit("/")
-            cy.get("[data-cy=book]").should("exist")
+            cy.contains("Valid Title").should("exist")
+            cy.contains("Valid Author").should("exist")
         })
     })
 
