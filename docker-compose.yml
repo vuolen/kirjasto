@@ -9,8 +9,7 @@ services:
 
     frontend:
         build:
-            context: .
-            dockerfile: ${FRONTEND_LOCATION}/Dockerfile
+            context: ${FRONTEND_LOCATION}
             target: dev
         container_name: kirjasto-frontend-dev
         image: kirjasto-frontend-dev
@@ -22,7 +21,6 @@ services:
             - ${FRONTEND_LOCATION}/test:/usr/src/app/frontend/test
             - ${FRONTEND_LOCATION}/webpack.dev.js:/usr/src/app/frontend/webpack.dev.js
             - ${FRONTEND_LOCATION}/webpack.common.js:/usr/src/app/frontend/webpack.common.js
-            - ./shared:/usr/src/app/shared
         depends_on:
             - backend
         network_mode: "host"
@@ -30,17 +28,16 @@ services:
 
     backend:
         build:
-            context: .
-            dockerfile: ${BACKEND_LOCATION}/Dockerfile
+            context: ${BACKEND_LOCATION}
             target: dev
         container_name: kirjasto-backend-dev
         environment:
             DATABASE_URL: ${DATABASE_URL}
             PORT: 8000
         volumes:
-            - ${BACKEND_LOCATION}:/usr/src/app/backend
-            - /usr/src/app/node_modules
-            - ./shared:/usr/src/app/shared
+            - ${BACKEND_LOCATION}/src:/usr/src/app/backend/src
+            - ${BACKEND_LOCATION}/typings:/usr/src/app/backend/typings
+            - ${BACKEND_LOCATION}/test:/usr/src/app/backend/test
         depends_on:
             - db
         network_mode: "host"
