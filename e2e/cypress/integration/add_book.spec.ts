@@ -30,6 +30,14 @@ describe("Adding a book", () => {
             cy.contains("Valid Title").should("exist")
             cy.contains("Valid Author").should("exist")
         })
+
+        it("author input suggests existing authors", () => {
+            cy.addBook({author: {name: "Test Author"}})
+
+            cy.visit("/addBook")
+            cy.get("[data-cy=author]").type("Test")
+            cy.contains("Test Author").should("exist")
+        })
     })
 
     describe("as a normal user", () => {

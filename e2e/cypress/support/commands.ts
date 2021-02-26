@@ -67,7 +67,7 @@ Cypress.Commands.add("emptyDB", () => {
 })
 
 Cypress.Commands.add("addBook", (book: {title?: string, author?: {name: string}}) => {
-    const VALID_BOOK = {title: "Test Book"}
+    const VALID_BOOK = {title: "Test Book", author: {name: "Test Author"}}
     getAccessToken("admin@example.com", "admin").then(
         token => cy.request({
             method: "POST",
