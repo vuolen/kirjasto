@@ -27,6 +27,10 @@ First run the project locally with `./kirjasto.sh start-dev`, then open a new te
 
 The [backend](https://github.com/vuolen/kirjasto-backend) and [frontend](https://github.com/vuolen/kirjasto-frontend) are in separate repositories. This repository is mainly for documentation of the project as a whole, more in-depth documentation will be in the specific repositories.
 
+## Contributing
+
+This project uses issues as user stories to be implemented. Feel free to open new ones. The backlog is located in the [projects](https://github.com/vuolen/kirjasto/projects/1) tab.
+
 ## Motivation
 
 This project is made to fit the needs of [Satakunta Nation's](https://satakuntalainenosakunta.fi/fi/en/) library. This means that some technical decisions are a result of maintaining compatibility with other projects.
